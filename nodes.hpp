@@ -2,10 +2,13 @@
 #define NODES_HPP
 
 #include <vector>
+#include <sstream>
 
 
 
 typedef int IDnumber;
+
+enum qType{LIFO, FIFO};
 
 class Nodes
 {
@@ -61,7 +64,6 @@ class ActiveElement : public Nodes
     void normalizePreferences();
     void setPreferences();
     virtual void doNextIteration(int iterationNumber)=0;
-    //virtual void getStatusToReport()=0: struct Status
 
 };
 
@@ -72,13 +74,13 @@ public:
     Ramp(IDnumber ID, int iterationsPerTask);
     void doNextIteration(int externalIterationCounter) override;
     IDnumber getID() { return _ID; }
-    //structStatus getStatusToReport()
+
+    friend void getStatusToReport(Ramp& ramp,std::stringstream reportStream);
 };
 
 
 class Worker : public ActiveElement, ProductReceiver
 {
-    enum qType{LIFO, FIFO};
     qType _queueType;
     std::vector<Product> _productsQueue ;
 
@@ -87,7 +89,8 @@ class Worker : public ActiveElement, ProductReceiver
     void doNextIteration(int externalIterationCounter) override;
     void addProductToQueue(Product product) override;
     IDnumber getID() {return _ID;}
-    //struct Status getStatusToReport() ;
+
+    friend void getStatusToReport(Worker& worker,std::stringstream reportStream);
 
 };
 
@@ -97,9 +100,10 @@ class Store : public Nodes, ProductReceiver
 
 public:
     Store(IDnumber ID);
-    //Status getStatusToReport();
     IDnumber getID() { return _ID; }
     void addProductToQueue(Product product) override;
+
+    friend void getStatusToReport(Store& store,std::stringstream reportStream);
 };
 
 

@@ -2,6 +2,7 @@
 #define SIMULATION_HPP
 
 #include "nodes.hpp"
+#include "report.hpp"
 
 
 class Simulation
@@ -14,19 +15,24 @@ class Simulation
 
 public:
 
-    //getRamps();
+    std::vector<Ramp>& getRamps();
     void addRamp(Ramp ramp);
     //removeRamp(Id);
 
-    //getWorkers();
+    std::vector<Worker>& getWorkers();
     void addWorker(Worker worker);
     //removeWorker(Id);
 
-    //getStorehouses();
+    std::vector<Store>& getStores();
     void addStore(Store store);
     //removeStorehouse(Id);
 
     bool checkNet();
 };
+
+//---------------SIMULATION_RUN-----------------------//
+
+void simulation_run(Simulation &sim, int maxIteration, Report& report);
+
 
 #endif // SIMULATION_HPP_INCLUDED
